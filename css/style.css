@@ -24,3 +24,9 @@ body {
   border: 1px solid white;
 
 }
+.flag-button{
+  width: 50px;
+  height: 25px;
+  text-align: center;
+}
+

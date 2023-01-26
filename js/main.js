@@ -3,7 +3,9 @@
 let gBoard = [];
 const gLevel = { SIZE: 4, MINES: 2 };
 const gGame = { isOn: false, shownCount: 0, markedCount: 0, secsPassed: 0 };
+
 function onInit() {
+  gGame.isOn = true;
   buildBoard();
 }
 
@@ -24,6 +26,12 @@ function buildBoard() {
 }
 
 function renderBoard() {
+  let elBoard = document.querySelector('.board');
+  if (checkGameOver()) {
+    console.log('game over')
+    // elBoard.innerHTML = '<div>Game Over</div>';
+    return;
+  }
   let strHTML = '<table>';
   setMinesNegsCount(gBoard);
   for (let i = 0; i < gBoard.length; i++) {
@@ -43,7 +51,6 @@ function renderBoard() {
   }
   strHTML += '</table>';
 
-  let elBoard = document.querySelector('.board');
   elBoard.innerHTML = strHTML;
 }
 
@@ -87,11 +94,30 @@ function countMinesAround(board, i, j) {
 }
 
 function cellClicked(element, i, j) {
-  console.log(element);
-  console.log(i);
-  console.log(j);
-  console.log(gBoard);
-  console.log(gBoard[i][j]);
+  if (gBoard[i][j].isMine) {
+    gGame.isOn = false;
+  }
+
   gBoard[i][j].isShown = true;
   renderBoard();
 }
+
+function cellMarked(event, i, j) {
+  console.log(event);
+  gBoard[i][j].isMarked = true;
+  renderBoard();
+}
+function checkGameOver() {
+  // if clicked on cell mine: gameOver //
+  // [[ismarked or is open ]] 
+  // count shown === all array {} - mines
+
+
+  if (!gGame.isOn) {
+    return true;
+  }
+  return false;
+
+}
+//Game ends
+// when all mines are marked, and all the other cells are shown
