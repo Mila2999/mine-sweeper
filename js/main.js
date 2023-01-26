@@ -28,7 +28,7 @@ function buildBoard() {
 function renderBoard() {
   let elBoard = document.querySelector('.board');
   if (checkGameOver()) {
-    console.log('game over')
+    console.log('game over');
     // elBoard.innerHTML = '<div>Game Over</div>';
     return;
   }
@@ -104,20 +104,11 @@ function cellClicked(element, i, j) {
 
 function cellMarked(event, i, j) {
   console.log(event);
-  gBoard[i][j].isMarked = true;
+  gBoard[i][j].isMarked = !gBoard[i][j].isMarked;
   renderBoard();
 }
-function checkGameOver() {
-  // if clicked on cell mine: gameOver //
-  // [[ismarked or is open ]] 
-  // count shown === all array {} - mines
 
 
-  if (!gGame.isOn) {
-    return true;
-  }
-  return false;
 
-}
-//Game ends
-// when all mines are marked, and all the other cells are shown
+
+ 
