@@ -6,6 +6,8 @@ const gGame = { isOn: false, shownCount: 0, markedCount: 0, secsPassed: 0 };
 
 function onInit() {
   gGame.isOn = true;
+  document.querySelector('.game-over').innerHTML = '';
+  document.querySelector('.restart').innerHTML = '';
   buildBoard();
 }
 
@@ -27,11 +29,7 @@ function buildBoard() {
 
 function renderBoard() {
   let elBoard = document.querySelector('.board');
-  if (checkGameOver()) {
-    console.log('game over')
-    // elBoard.innerHTML = '<div>Game Over</div>';
-    return;
-  }
+
   let strHTML = '<table>';
   setMinesNegsCount(gBoard);
   for (let i = 0; i < gBoard.length; i++) {
@@ -94,30 +92,49 @@ function countMinesAround(board, i, j) {
 }
 
 function cellClicked(element, i, j) {
+  if (gBoard[i][j].isMarked || !gGame.isOn) {
+    return;
+  }
+
   if (gBoard[i][j].isMine) {
     gGame.isOn = false;
   }
 
   gBoard[i][j].isShown = true;
   renderBoard();
+  checkGameOver();
+  if (!gGame.isOn) {
+    document.querySelector('.game-over').innerHTML = '<div>Game Over!</div>';
+    document.querySelector('.restart').innerHTML =
+      '<button class="restart-button" onclick="onInit()">Restart game</button>';
+    console.log('game over');
+    // elBoard.innerHTML = '<div>Game Over</div>';
+    return;
+  }
 }
 
 function cellMarked(event, i, j) {
-  console.log(event);
-  gBoard[i][j].isMarked = true;
+  if (!gGame.isOn) return;
+  gBoard[i][j].isMarked = !gBoard[i][j].isMarked;
   renderBoard();
 }
+
 function checkGameOver() {
-  // if clicked on cell mine: gameOver //
-  // [[ismarked or is open ]] 
-  // count shown === all array {} - mines
-
-
-  if (!gGame.isOn) {
-    return true;
+  let shownSCell = 0;
+  for (let i = 0; i < gBoard.length; i++) {
+    for (let j = 0; j < gBoard[i].length; j++) {
+      if (gBoard[i][j].isShown) shownSCell++;
+    }
   }
-  return false;
+  console.log(+gLevel.SIZE * +gLevel.SIZE - gLevel.MINES);
+  if (gLevel.SIZE * gLevel.SIZE - gLevel.MINES === shownSCell) {
+    gGame.isOn = false;
+  }
+}
+
+function changeLevel(size){
+  gLevel.SIZE = size
+  gLevel.MINES = +size / 2
+  onInit()
 
 }
-//Game ends
-// when all mines are marked, and all the other cells are shown

@@ -8,10 +8,18 @@
     <title>Minesweeper!</title>
   </head>
   <body onload="onInit()">
-    <h1>Mine: <span class="mines-count">0</span></h1>
+    <h1 id="h1">Mine Swepper</h1>
+    <div><button onclick="changeLevel(4)">Easy</button>
+      <button onclick="changeLevel(8)">Medium</button>
+      <button onclick="changeLevel(12)">Hard</button>
+    </div>
+
+    <div class="game-over"></div>
     <div class="board"></div>
+    <div class="restart"></div>
     <br />
     <br />
+    <h2>Time passed: <span class="mines-count">0:00</span></h2>
     <footer>Mila Savonik</footer>
     <script src="js/main.js"></script>
     <script src="js/utils.js"></script>
