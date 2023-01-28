@@ -29,7 +29,6 @@ function buildBoard() {
 
 function renderBoard() {
   let elBoard = document.querySelector('.board');
-
   let strHTML = '<table>';
   setMinesNegsCount(gBoard);
   for (let i = 0; i < gBoard.length; i++) {
@@ -115,6 +114,7 @@ function cellClicked(element, i, j) {
 
 function cellMarked(event, i, j) {
   if (!gGame.isOn) return;
+
   gBoard[i][j].isMarked = !gBoard[i][j].isMarked;
   renderBoard();
 }
@@ -132,9 +132,8 @@ function checkGameOver() {
   }
 }
 
-function changeLevel(size){
-  gLevel.SIZE = size
-  gLevel.MINES = +size / 2
-  onInit()
-
+function changeLevel(size) {
+  gLevel.SIZE = size;
+  gLevel.MINES = +size / 2;
+  onInit();
 }
